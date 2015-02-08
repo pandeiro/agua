@@ -1,7 +1,7 @@
 # agua
 
-Utilities for scripting simple "isomorphic" webapps with ClojureScript and React
-in a single [Boot](http://boot-clj.com) file.
+Utilities for scripting simple *isomorphic* webapps with
+ClojureScript/React within a single [Boot](http://boot-clj.com) file.
 
 [](dependency)
 ```clojure
