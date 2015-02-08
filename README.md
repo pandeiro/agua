@@ -4,7 +4,7 @@ Utilities for scripting simple webapps
 
 [](dependency)
 ```clojure
-[pandeiro/agua "0.1.0-SNAPSHOT"] ;; latest release
+[pandeiro/agua "0.1.0"] ;; latest release
 ```
 [](/dependency)
 
