@@ -18,7 +18,11 @@
   (slurp (io/resource "cljsjs/production/react.min.inc.js")))
 
 (def ^:private nashorn
-  (.getEngineByName (ScriptEngineManager.) "nashorn"))
+  (let [nashorn (.getEngineByName (ScriptEngineManager.) "nashorn")
+        shims   "var global = this, document = null;"]
+    (doto nashorn
+      (.eval shims)
+      (.eval reactjs))))
 
 (defn- cljs->js [str]
   (with-time-print "Compiling ClojureScript"
@@ -35,13 +39,12 @@
   (memoize
    (fn [html react-app css uri]
      (when (not= uri "/favicon.ico")
-       (with-time-print (format "Prerendering %s" uri)
-         (let [preamble  "var global = this, document = null;" ; missing in Nashorn env
-               route     (str "var location = {pathname: '" uri "'};")
-               server-js (str preamble route reactjs react-app)
-               view      (.eval nashorn server-js)
-               client-js (str reactjs react-app)]
-           (format html css view client-js)))))))
+       (let [route     (str "var location = {pathname: '" uri "'};")
+             server-js (str route react-app)
+             view      (with-time-print (format "Prerendering %s" uri)
+                         (.eval nashorn server-js))
+             client-js (str reactjs react-app)]
+         (format html css view client-js))))))
 
 ;;
 ;; API
