@@ -18,10 +18,12 @@
   (.getEngineByName (ScriptEngineManager.) "nashorn"))
 
 (defn- cljs->js [str]
-  (let [in (File/createTempFile "cljs-in" "cljs")]
+  (let [in (File/createTempFile "agua-cljs-tmp" "cljs")]
     (spit in str)
     (let [result (with-out-str
-                   (cljsc/build in {:output-to :print, :optimizations :simple}))]
+                   (cljsc/build in {:output-to     :print
+                                    :optimizations :simple
+                                    :output-dir    ".agua-output-dir"}))]
       result)))
 
 (def prerender

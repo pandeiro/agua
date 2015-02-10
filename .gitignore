@@ -14,3 +14,4 @@ pom.xml.asc
 *.swp
 /volumes/
 /target/*
+/example/.agua-output-dir
