@@ -1,27 +1,3 @@
-# agua
-
-Simple, *isomorphic* Clojure webapps in a single
-[Boot](http://boot-clj.com) file.
-
-[](dependency)
-```clojure
-[pandeiro/agua "0.2.0"] ;; latest release
-```
-[](/dependency)
-
-**Note: agua requires Java 8**
-
-## What the hell is this?
-
-Aside from some people's worst
-[nightmare](https://twitter.com/alandipert/status/564940013805514752),
-agua is a tool that lets you write and run a
-[ClojureScript](https://github.com/clojure/clojurescript) app both **in
-the browser** and **pre-rendered on the server**.
-
-That means it lets you do something like this:
-
-```clj
 #!/usr/bin/env boot
 
 (set-env!
@@ -110,27 +86,3 @@ That means it lets you do something like this:
 ;;
 (defn -main [& args]
   (serve {:html page, :css styles, :app app}))
-```
-
-That script is included in this repo. To run it, just do `./example/app.boot`.
-Then open the link in your favorite browser (like [Lynx](http://lynx.isc.org/)).
-
-## Usage
-
-To use agua, just bring along your favorite
-[React](http://facebook.github.io/react/) wrapper (React is already
-included and pre-rendering it server-side in Nashorn is already
-configured) and write a script like the one above specifying your HTML
-as a Hiccup vector, your CSS as Garden data structures, and your
-ClojureScript application inline, as shown.
-
-CSS is optional: if you include it, make sure your HTML template has
-three '%s' placeholders, the first of which will hold the CSS. You can
-then omit/include the `:css` key to `(serve ...)` accordingly.
-
-## License
-
-Copyright © 2015 Murphy McMahon
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
