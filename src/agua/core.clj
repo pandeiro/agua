@@ -58,7 +58,7 @@
 (defmacro defcss [sym & body]
   `(def ~sym
      ~(->> body
-        (map css)
+        (map (comp css eval))
         (s/join #" "))))
 
 (defn serve
