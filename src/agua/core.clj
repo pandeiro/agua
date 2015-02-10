@@ -9,7 +9,7 @@
   (require '[clojure.java.io      :as io]
            '[clojure.string       :as s]
            '[cljs.closure         :as cljsc]
-           '[hiccup.page          :refer [html5]]
+           '[hiccup.compiler      :refer [compile-html]]
            '[garden.core          :refer [css]]
            '[ring.adapter.jetty   :refer [run-jetty]]
            '[ring.middleware.gzip :refer [wrap-gzip]]))
@@ -47,8 +47,11 @@
 ;; API
 ;;
 
-(defmacro defhtml [sym & body]
-  `(def ~sym ~(html5 body)))
+(defmacro defhtml [sym & content]
+  `(def ~sym
+     (str "<!doctype html><html>"
+          ~(apply compile-html content)
+          "</html>")))
 
 (defmacro defcljs [sym & body]
   `(def ~sym
