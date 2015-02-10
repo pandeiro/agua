@@ -1,15 +1,18 @@
 (.put (System/getProperties) "org.eclipse.jetty.LEVEL" "WARN") ; silence jetty
 
 (ns agua.core
-  (:import  [javax.script         ScriptEngineManager]
-            [java.io              File])
-  (:require [clojure.java.io      :as io]
-            [clojure.string       :as s]
-            [cljs.closure         :as cljsc]
-            [hiccup.page          :refer [html5]]
-            [garden.core          :refer [css]]
-            [ring.adapter.jetty   :refer [run-jetty]]
-            [ring.middleware.gzip :refer [wrap-gzip]]))
+  (:require [agua.util :refer [with-time-print]]))
+
+(with-time-print "Loading dependencies"
+  (import  '[javax.script         ScriptEngineManager]
+           '[java.io              File])
+  (require '[clojure.java.io      :as io]
+           '[clojure.string       :as s]
+           '[cljs.closure         :as cljsc]
+           '[hiccup.page          :refer [html5]]
+           '[garden.core          :refer [css]]
+           '[ring.adapter.jetty   :refer [run-jetty]]
+           '[ring.middleware.gzip :refer [wrap-gzip]]))
 
 (def ^:private reactjs
   (slurp (io/resource "cljsjs/production/react.min.inc.js")))
@@ -18,28 +21,27 @@
   (.getEngineByName (ScriptEngineManager.) "nashorn"))
 
 (defn- cljs->js [str]
-  (let [in (File/createTempFile "agua-cljs-tmp" "cljs")]
-    (spit in str)
-    (let [result (with-out-str
-                   (cljsc/build in {:output-to     :print
-                                    :optimizations :simple
-                                    :output-dir    ".agua-output-dir"}))]
-      result)))
+  (with-time-print "Compiling ClojureScript"
+    (let [in (File/createTempFile "agua-cljs-tmp" "cljs")]
+      (spit in str)
+      (let [result (with-out-str
+                     (cljsc/build in {:output-to     :print
+                                      :optimizations :simple
+                                      :pretty-print  true
+                                      :output-dir    ".agua-output-dir"}))]
+        result))))
 
 (def prerender
   (memoize
    (fn [html react-app css uri]
      (when (not= uri "/favicon.ico")
-       (print (format "Prerendering %s... " uri))
-       (flush))
-     (let [preamble  "var global = this, document = null;" ; missing in Nashorn env
-           route     (str "var location = {pathname: '" uri "'};")
-           server-js (str preamble route reactjs react-app)
-           view      (.eval nashorn server-js)
-           client-js (str reactjs react-app)]
-       (when (not= uri "/favicon.ico")
-         (println "done."))
-       (format html css view client-js)))))
+       (with-time-print (format "Prerendering %s" uri)
+         (let [preamble  "var global = this, document = null;" ; missing in Nashorn env
+               route     (str "var location = {pathname: '" uri "'};")
+               server-js (str preamble route reactjs react-app)
+               view      (.eval nashorn server-js)
+               client-js (str reactjs react-app)]
+           (format html css view client-js)))))))
 
 ;;
 ;; API
