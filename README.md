@@ -5,7 +5,7 @@ Simple, *isomorphic* Clojure webapps in a single
 
 [](dependency)
 ```clojure
-[pandeiro/agua "0.2.0"] ;; latest release
+[pandeiro/agua "0.2.1"] ;; latest release
 ```
 [](/dependency)
 
