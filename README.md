@@ -25,7 +25,7 @@ That means it lets you do something like this:
 #!/usr/bin/env boot
 
 (set-env!
- :dependencies '[[pandeiro/agua "0.2.0"]
+ :dependencies '[[pandeiro/agua "0.2.1"]
                  [reagent       "0.5.0-alpha"]])
 
 (require
