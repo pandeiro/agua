@@ -5,7 +5,7 @@ Simple, *isomorphic* Clojure webapps in a single
 
 [](dependency)
 ```clojure
-[pandeiro/agua "0.2.1"] ;; latest release
+[pandeiro/agua "0.2.2"] ;; latest release
 ```
 [](/dependency)
 
@@ -25,7 +25,7 @@ That means it lets you do something like this:
 #!/usr/bin/env boot
 
 (set-env!
- :dependencies '[[pandeiro/agua "0.2.1"]
+ :dependencies '[[pandeiro/agua "0.2.2"]
                  [reagent       "0.5.0-alpha"]])
 
 (require
