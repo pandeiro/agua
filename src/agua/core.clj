@@ -18,12 +18,10 @@
   (.getEngineByName (ScriptEngineManager.) "nashorn"))
 
 (defn- cljs->js [str]
-  (print "Compiling ClojureScript... ")
   (let [in (File/createTempFile "cljs-in" "cljs")]
     (spit in str)
     (let [result (with-out-str
                    (cljsc/build in {:output-to :print, :optimizations :simple}))]
-      (println "done.")
       result)))
 
 (def prerender
