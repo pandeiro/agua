@@ -1,7 +1,7 @@
 #!/usr/bin/env boot
 
 (set-env!
- :dependencies '[[pandeiro/agua "0.2.2"]
+ :dependencies '[[pandeiro/agua "0.2.3"]
                  [reagent       "0.5.0-alpha"]])
 
 (require
