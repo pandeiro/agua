@@ -44,7 +44,9 @@
              view      (with-time-print (format "Prerendering %s" uri)
                          (.eval nashorn server-js))
              client-js (str reactjs react-app)]
-         (format html css view client-js))))))
+         (if css
+           (format html css view client-js)
+           (format html view client-js)))))))
 
 ;;
 ;; API
