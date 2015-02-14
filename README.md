@@ -25,7 +25,7 @@ That means it lets you do something like this:
 #!/usr/bin/env boot
 
 (set-env!
- :dependencies '[[pandeiro/agua "0.2.2"]
+ :dependencies '[[pandeiro/agua "0.2.3"]
                  [reagent       "0.5.0-alpha"]])
 
 (require
@@ -112,8 +112,12 @@ That means it lets you do something like this:
   (serve {:html page, :css styles, :app app}))
 ```
 
-That script is included in this repo. To run it, just do `./example/app.boot`.
-Then open the link in your favorite browser (like [Lynx](http://lynx.isc.org/)).
+That script is included in
+[this repo](https://github.com/pandeiro/agua/tree/master/example). To
+run it, just do `./example/app.boot`. Then open the link in your
+favorite browser (like [Lynx](http://lynx.isc.org/) or
+[*eww*](http://www.gnu.org/software/emacs/manual/html_mono/eww.html) or
+even [Chromium](http://www.chromium.org/Home)).
 
 ## Usage
 
@@ -127,6 +131,11 @@ ClojureScript application inline, as shown.
 CSS is optional: if you include it, make sure your HTML template has
 three '%s' placeholders, the first of which will hold the CSS. You can
 then omit/include the `:css` key to `(serve ...)` accordingly.
+
+## Help others
+
+If you write something with this and would like to share, add it to
+`example/` and submit a Pull Request!
 
 ## License
 
